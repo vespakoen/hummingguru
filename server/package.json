@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "forever --minUptime 1 --spinSleepTime 3000 index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "busboy": "^0.2.13",
+    "concat-stream": "^1.5.2",
+    "express": "^4.14.0",
+    "ffmpeg-stream": "^0.3.0",
+    "forever": "^0.15.2",
+    "forever-monitor": "git+https://github.com/foreverjs/forever-monitor.git",
+    "level": "^1.5.0",
+    "uuid": "^2.0.3"
+  }
+}

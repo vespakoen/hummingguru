@@ -1,0 +1,6 @@
+server:
+  build: server
+  ports:
+    - 8080:8080
+  volumes:
+    - ./tmp:/tmp
