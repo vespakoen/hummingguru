@@ -3,7 +3,6 @@ const spawn = require('child_process').spawn
 const uuid = require('uuid')
 const Busboy = require('busboy')
 const debug = require('debug')
-const levelPromisify = require('level-promisify')
 const { parseJsonRequest, endJson } = require('./utils')
 const { dbPut, dbGet } = require('./level-promise')
 const db = require('./db')

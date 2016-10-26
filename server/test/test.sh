@@ -26,7 +26,5 @@ userId=$(curl -XPOST --data "@/tmp/create-facebook-user.json" http://localhost:8
 printf '\n> Retrieving next humm\n'
 curl -XGET http://localhost:8080/api/nexthumm/$userId
 
-sleep 4
-
 printf '\n> Retrieving next humm\n'
 curl -XGET http://localhost:8080/api/nexthumm/$userId
