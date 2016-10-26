@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { AppRegistry } from 'react-native'
 import { Provider } from 'react-redux'
-import Login from './src/components/Login'
+import App from './src/components/App'
 import store from './src/store'
 
 const HummingGuru = () => (
   <Provider store={store}>
-    <Login />
+    <App />
   </Provider>
 )
 

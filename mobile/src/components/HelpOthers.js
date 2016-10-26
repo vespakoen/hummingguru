@@ -15,8 +15,7 @@ import { actions } from '../redux/helpOthers'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#2b608a',
+    flex: 1
   }
 })
 

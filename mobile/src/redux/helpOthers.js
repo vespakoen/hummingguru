@@ -1,4 +1,3 @@
-import uuid from 'uuid'
 import * as api from '../api'
 
 const initialState = {

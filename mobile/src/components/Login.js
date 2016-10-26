@@ -2,14 +2,12 @@ import React, {
   Component,
   PropTypes
 } from 'react'
+
 import {
   StyleSheet,
   Text,
-  View,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native'
-import Recorder from './Recorder'
-import HelpOthers from './HelpOthers'
 
 import { connect } from 'react-redux'
 import { actions } from '../redux/login'
@@ -29,42 +27,31 @@ const styles = StyleSheet.create({
   }
 })
 
-const Login = ({
-  isLoggedIn,
-  isFetchingProfile,
-  isFetchingUser,
-  user,
-  login
-}) => {
-  let view
-  if (user) {
-    view = (<HelpOthers />)
-  } else if (isLoggedIn) {
-    if (isFetchingProfile) {
-      view = (<Text>Loading Facebook profile...</Text>)
-    } else if (isFetchingUser) {
-      view = (<Text>Loading user information...</Text>)
+class Login extends Component {
+  render() {
+    const { isLoggedIn, isFetchingProfile, isFetchingUser, login } = this.props
+    if (isLoggedIn) {
+      if (isFetchingProfile) {
+        return (<Text>Loading Facebook profile...</Text>)
+      } else if (isFetchingUser) {
+        return (<Text>Loading user information...</Text>)
+      }
+    } else {
+      return (
+        <TouchableOpacity
+          onPress={login}
+          style={styles.login}
+        >
+          <Text style={styles.loginText}>Login with Facebook</Text>
+        </TouchableOpacity>
+      )
     }
-  } else {
-    view = (
-      <TouchableOpacity
-        onPress={login}
-        style={styles.login}
-      >
-        <Text style={styles.loginText}>Login with Facebook</Text>
-      </TouchableOpacity>
-    )
+    return null
   }
-  return (
-    <View style={styles.container}>
-      { view }
-    </View>
-  )
 }
 
 Login.propTypes = {
   login: PropTypes.func,
-  user: PropTypes.object,
   isLoggedIn: PropTypes.bool,
   isFetchingUser: PropTypes.bool,
   isFetchingProfile: PropTypes.bool

@@ -1,6 +1,7 @@
 package com.hummingguru;
 
 import com.facebook.react.ReactActivity;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.rnfs.RNFSPackage;
 import com.vespakoen.waveform.WaveformPackage;

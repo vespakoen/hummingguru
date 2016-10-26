@@ -2,3 +2,4 @@ node_modules/
 tmp/
 data/
 .DS_Store
+.tern-port

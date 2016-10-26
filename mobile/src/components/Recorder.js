@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import Waveform from 'react-native-waveform'
 import { connect } from 'react-redux'
+import { Button, Card } from 'react-native-material-design';
 import { actions } from '../redux/recorder'
 
 const html = url => `
@@ -60,8 +61,7 @@ html, body {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#2b608a',
+    flex: 1
   },
   controls: {
     justifyContent: 'center',
@@ -126,6 +126,13 @@ class Recorder extends Component {
     const progressSeconds = Math.round(this.props.progress)
     return (
       <View style={styles.container}>
+        <Card>
+          <Card.Body>
+            <Text>
+              ...
+            </Text>
+          </Card.Body>
+        </Card>
         { this.props.recordingId && (
           <WebView
             source={{ html: html(`https://humming.guru/humm/${this.props.recordingId}.mp3`) }}

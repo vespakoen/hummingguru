@@ -19,10 +19,16 @@ export function getUserByFacebookUserId(profile) {
     api.getUserByFacebookUserId(profile.id)
       // when not found, create a new user
       .catch(() => api.createFacebookUser(profile))
-      .then(user => dispatch({
-        type: 'FETCH_USER_SUCCESS',
-        payload: user
-      }))
+      .then(user => {
+        dispatch({
+          type: 'FETCH_USER_SUCCESS',
+          payload: user
+        })
+        dispatch({
+          type: 'NAVIGATE_TO',
+          payload: 'helpOthers'
+        })
+      })
       .catch(err => dispatch({
         type: 'FETCH_USER_ERROR',
         payload: err.message
