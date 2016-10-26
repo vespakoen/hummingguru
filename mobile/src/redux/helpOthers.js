@@ -30,6 +30,7 @@ const reducers = {
   }),
   FETCH_NEXT_HUMM_ERROR: (state, action) => ({
     ...state,
+    humm: null,
     error: action.payload
   })
 }

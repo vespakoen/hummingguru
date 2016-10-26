@@ -1,173 +1,235 @@
 import React, { Component, PropTypes } from 'react'
+
 import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
-  WebView
+  TouchableOpacity,
+  TextInput
 } from 'react-native'
-import Waveform from 'react-native-waveform'
-import { connect } from 'react-redux'
-import { Button, Card } from 'react-native-material-design';
-import { actions } from '../redux/recorder'
 
-const html = url => `
-<style type="text/css">
-html, body {
-  margin: 0;
-  padding: 0;
-}
-.waveform-wrap {
-  position: relative;
-  height: 100px;
-}
-.waveform-play {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 9999;
-}
-.waveform {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-</style>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.0.52/wavesurfer.min.js"></script>
-  <div id="waveform" class="waveform-wrap">
-    <div class="waveform-play"></div>
-    <div class="waveform"></div>
-  </div>
-  <script>
-    var wave = WaveSurfer.create({
-      container: '#waveform',
-      waveColor: 'violet',
-      progressColor: 'purple'
-    });
-    wave.load('${url}');
-    const playEl = document.querySelector('#waveform .waveform-play')
-    playEl.addEventListener('click', function () {
-      wave.playPause()
-    })
-  </script>
-</body>
-`
+import { connect } from 'react-redux'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import Waveform from './Waveform'
+import RoundButton from './RoundButton'
+import { actions } from '../redux/recorder'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
   },
   controls: {
-    justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
-  waveform: {
+  counter: {
+    fontSize: 30,
+    color: '#fff'
+  },
+  submit: {
+    fontSize: 20,
+    color: '#fff'
+  },
+  intro: {
     flex: 1,
-    backgroundColor: 'red'
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 30,
+    paddingRight: 30
   },
-  progressText: {
-    paddingTop: 20,
+  introText: {
+    fontSize: 24,
+    lineHeight: 36,
+    color: '#888',
+    textAlign: 'center'
+  },
+  note: {
+    backgroundColor: '#fff',
     fontSize: 20,
-    color: '#fff'
-  },
-  button: {
-    padding: 10
-  },
-  disabledButtonText: {
-    color: '#eee'
-  },
-  buttonText: {
-    fontSize: 20,
-    color: '#fff'
-  },
-  activeButtonText: {
-    fontSize: 20,
-    color: '#B81F00'
+    height: 80,
+    marginLeft: 20,
+    marginRight: 20,
+    padding: 15,
+    color: '#000'
   }
 })
 
 class Recorder extends Component {
+  constructor(props) {
+    super(props)
+    this.toggleRecord = this.toggleRecord.bind(this)
+  }
+
   componentDidMount() {
     this.props.listenToProgress()
     this.props.listenToFinish()
   }
 
-  renderButton(title, onPress, active) {
-    const style = (active) ? styles.activeButtonText : styles.buttonText
+  toggleRecord() {
+    if (this.props.isRecording) {
+      this.props.stopRecording()
+      clearTimeout(this.autoStopper)
+    } else {
+      this.props.startRecording()
+      this.autoStopper = setTimeout(this.props.stopRecording, 10000)
+    }
+  }
+
+  renderRoundButton({ children, onPress, buttonStyle }) {
     return (
-      <TouchableHighlight style={styles.button} onPress={onPress}>
-        <Text style={style}>
-          {title}
-        </Text>
-      </TouchableHighlight>
+      <TouchableOpacity onPress={onPress} >
+        <View style={[styles.roundButton, buttonStyle || {}]} >
+          { children }
+        </View>
+      </TouchableOpacity>
     )
   }
 
-  render() {
-    /* <WebView
-      source={{ html: html(`https://humming.guru/humm/${this.props.recordingId}.mp3`) }}
-      style={styles.waveform}
-    /> */
-    /*
-    <Waveform
-      style={{ height: 100, width: 320 }}
-      filename={`https://humming.guru/humm/${this.props.recordingId}.wav`}
-    /> */
-    // const audioPath = AudioUtils.DocumentDirectoryPath + '/humm.aac'
-    const pauser = this.props.isRecording ? this.props.pauseRecording : this.props.pausePlaying
-    const stopper = this.props.isRecording ? this.props.stopRecording : this.props.stopPlaying
+  renderRecordStep() {
     const progressSeconds = Math.round(this.props.progress)
+    const recordButtonContent = this.props.isRecording ? (
+      <Text style={styles.counter}>
+        {10 - progressSeconds}
+      </Text>
+    ) : (
+      <Icon
+        name="mic"
+        size={50}
+        color="#000"
+      />
+    )
     return (
       <View style={styles.container}>
-        <Card>
-          <Card.Body>
-            <Text>
-              ...
+        { this.props.isRecording ? (
+          <View style={styles.intro}>
+            <Text style={styles.introText}>
+              Hummmmmmmm...
             </Text>
-          </Card.Body>
-        </Card>
-        { this.props.recordingId && (
-          <WebView
-            source={{ html: html(`https://humming.guru/humm/${this.props.recordingId}.mp3`) }}
-            style={styles.waveform}
-          />
+          </View>
+        ) : (
+          <View style={styles.intro}>
+            <Text style={styles.introText}>
+              Tap the button below and start humming...
+            </Text>
+          </View>
         ) }
         <View style={styles.controls}>
-          { this.renderButton('RECORD', this.props.startRecording, this.props.isRecording) }
-          { this.renderButton('STOP', stopper) }
-          { this.renderButton('PAUSE', pauser) }
-          { this.renderButton('PLAY', this.props.startPlaying, this.props.isPlaying) }
-          <Text style={styles.progressText}>
-            {progressSeconds}s
+          <RoundButton
+            buttonStyle={{ backgroundColor: this.props.isRecording ? '#F44336' : '#fff' }}
+            onPress={this.toggleRecord}
+          >
+            {recordButtonContent}
+          </RoundButton>
+        </View>
+      </View>
+    )
+  }
+
+  renderUploadStep() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.intro}>
+          <Text style={styles.introText}>
+            Processing audio, hang in there...
           </Text>
         </View>
       </View>
     )
   }
+
+  renderPreviewStep() {
+    return (
+      <View style={styles.container}>
+        <Waveform recordingId={this.props.recordingId} />
+        <View style={styles.intro}>
+          <Text style={styles.introText}>
+            Tap the waves above, does it sound good?
+          </Text>
+        </View>
+        <View style={styles.controls}>
+          <RoundButton
+            onPress={this.props.acceptRecording}
+          >
+            <Icon
+              name="check"
+              size={50}
+              color="green"
+            />
+          </RoundButton>
+          <RoundButton
+            onPress={this.props.declineRecording}
+          >
+            <Icon
+              name="close"
+              size={50}
+              color="#F44336"
+            />
+          </RoundButton>
+        </View>
+      </View>
+    )
+  }
+
+  renderAddNoteStep() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.intro}>
+          <Text style={styles.introText}>
+            Add a helpfull note, or send some love to the other gurus...
+          </Text>
+        </View>
+        <TextInput
+          style={styles.note}
+          onChangeText={this.props.setNote}
+          value={this.props.note}
+          multiline
+        />
+        <View style={styles.controls}>
+          <RoundButton
+            buttonStyle={{ backgroundColor: '#4CAF50' }}
+            onPress={this.props.createHumm}
+          >
+            <Text style={styles.submit}>
+              SUBMIT
+            </Text>
+          </RoundButton>
+        </View>
+      </View>
+    )
+  }
+
+  render() {
+    const { recordingId, isUploading, isRecordingAccepted } = this.props
+    if (isRecordingAccepted) {
+      return this.renderAddNoteStep()
+    }
+    if (isUploading) {
+      return this.renderUploadStep()
+    }
+    if (recordingId) {
+      return this.renderPreviewStep()
+    }
+    return this.renderRecordStep()
+  }
 }
 
 Recorder.propTypes = {
+  isUploading: PropTypes.bool,
   isRecording: PropTypes.bool,
-  isRecordingPaused: PropTypes.bool,
-  isPlaying: PropTypes.bool,
-  isPlaybackPaused: PropTypes.bool,
   recordingId: PropTypes.string,
   progress: PropTypes.number,
   startRecording: PropTypes.func,
-  pauseRecording: PropTypes.func,
   stopRecording: PropTypes.func,
-  startPlaying: PropTypes.func,
-  pausePlaying: PropTypes.func,
-  stopPlaying: PropTypes.func,
   listenToProgress: PropTypes.func,
-  listenToFinish: PropTypes.func
+  listenToFinish: PropTypes.func,
+  acceptRecording: PropTypes.func,
+  declineRecording: PropTypes.func,
+  isRecordingAccepted: PropTypes.bool,
+  setNote: PropTypes.func,
+  note: PropTypes.string,
+  createHumm: PropTypes.func
 }
 
 export default connect(

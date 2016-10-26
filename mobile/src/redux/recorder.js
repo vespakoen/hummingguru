@@ -1,19 +1,21 @@
-import { AudioRecorder, AudioUtils } from 'react-native-audio'
+import { AudioRecorder } from 'react-native-audio'
 import FileUploader from 'react-native-file-uploader'
 import fs from 'react-native-fs'
-import uuid from 'uuid'
-import { createHumm } from '../api'
+import * as api from '../api'
+import { navigateTo } from './navigation'
+
 const initialState = {
   isRecording: false,
   isRecordingPaused: false,
   isPlaying: false,
   isPlaybackPaused: false,
+  isRecordingAccepted: false,
   progress: 0,
-  recordingId: null
+  recordingId: null,
+  note: null
 }
 
-const tmpFile = fs.DocumentDirectoryPath + '/humm.aac'
-console.log(tmpFile)
+const tmpFile = `${fs.DocumentDirectoryPath}/humm.aac`
 
 export function listenToProgress() {
   return (dispatch) => {
@@ -28,7 +30,6 @@ export function listenToProgress() {
 
 export function listenToFinish() {
   return (dispatch, getState) => {
-    const state = getState()
     AudioRecorder.onFinished = () => {
       const settings = {
         uri: tmpFile,
@@ -50,18 +51,12 @@ export function listenToFinish() {
           })
           return
         }
-        createHumm({
-          userId: state.login.user.id, // @todo un-hardcode
-          recordingId: res.data,
-          note: ''
-        })
-        .then(() => fs.unlink(tmpFile)
-          .catch(err => console.error('unlink error'))
-        )
-        .then(() => dispatch({
-          type: 'UPLOAD_SUCCESS',
-          payload: res.data
-        }))
+        fs.unlink(tmpFile)
+          .catch(unlinkErr => console.error(`unlink error: ${unlinkErr.message}`))
+          .then(() => dispatch({
+            type: 'UPLOAD_SUCCESS',
+            payload: res.data
+          }))
       }, (sent, expectedToSend) => {
         dispatch({
           type: 'UPLOAD_PROGRESS',
@@ -69,6 +64,13 @@ export function listenToFinish() {
         })
       })
     }
+  }
+}
+
+export function stopRecording() {
+  AudioRecorder.stopRecording()
+  return {
+    type: 'STOP_RECORDING'
   }
 }
 
@@ -99,13 +101,6 @@ export function pauseRecording() {
   }
 }
 
-export function stopRecording() {
-  AudioRecorder.stopRecording()
-  return {
-    type: 'STOP_RECORDING'
-  }
-}
-
 export function startPlaying() {
   AudioRecorder.playRecording()
   return {
@@ -127,6 +122,52 @@ export function stopPlaying() {
   }
 }
 
+export function acceptRecording() {
+  return {
+    type: 'ACCEPT_RECORDING'
+  }
+}
+
+export function declineRecording() {
+  return {
+    type: 'DECLINE_RECORDING'
+  }
+}
+
+export function setNote(note) {
+  return {
+    type: 'SET_NOTE',
+    payload: note
+  }
+}
+
+export function createHumm() {
+  return (dispatch, getState) => {
+    const state = getState()
+    dispatch({
+      type: 'CREATE_HUMM'
+    })
+    const humm = {
+      userId: state.login.user.id,
+      recordingId: state.recorder.recordingId,
+      note: state.recorder.note
+    }
+    api.createHumm(humm)
+    .then(() => {
+      dispatch({
+        type: 'CREATE_HUMM_SUCCESS'
+      })
+      dispatch(navigateTo('requests'))
+    })
+    .catch(err => {
+      dispatch({
+        type: 'CREATE_HUMM_ERROR',
+        payload: err.message
+      })
+    })
+  }
+}
+
 export const actions = {
   startRecording,
   pauseRecording,
@@ -135,7 +176,11 @@ export const actions = {
   pausePlaying,
   stopPlaying,
   listenToProgress,
-  listenToFinish
+  listenToFinish,
+  acceptRecording,
+  declineRecording,
+  setNote,
+  createHumm
 }
 
 const reducers = {
@@ -191,6 +236,25 @@ const reducers = {
   UPLOAD_PROGRESS: (state, action) => ({
     ...state,
     uploadProgress: action.payload
+  }),
+  ACCEPT_RECORDING: (state) => ({
+    ...state,
+    isRecordingAccepted: true
+  }),
+  DECLINE_RECORDING: (state) => ({
+    ...state,
+    isRecordingAccepted: false,
+    recordingId: null
+  }),
+  SET_NOTE: (state, action) => ({
+    ...state,
+    note: action.payload
+  }),
+  CREATE_HUMM_SUCCESS: (state) => ({
+    ...state,
+    recordingId: null,
+    note: null,
+    isRecordingAccepted: false
   })
 }
 

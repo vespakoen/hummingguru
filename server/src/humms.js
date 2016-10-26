@@ -55,7 +55,7 @@ function handleDownload(req, res) {
 function handleCreateHumm(req, res) {
   parseJsonRequest(req)
     .then(humm => {
-      humm.id = '' + new Date()
+      humm.id = '' + Date.now() // eslint-disable-line
       return dbPut(hummDb, humm.id, humm)
     })
     .then(() => endJson(res, { success: true }))

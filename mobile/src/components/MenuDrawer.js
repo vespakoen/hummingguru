@@ -5,7 +5,8 @@ import React, {
 
 import {
   View,
-  Text
+  Text,
+  StyleSheet
 } from 'react-native'
 
 import {
@@ -17,15 +18,21 @@ import {
 import { connect } from 'react-redux'
 import { actions } from '../redux/navigation'
 
+const styles = StyleSheet.create({
+  welcome: {
+    marginTop: 110
+  }
+})
+
 class MenuDrawer extends Component {
   render() {
     const page = this.props.page
     return (
       <Drawer theme="light">
         <Drawer.Header>
-          <View>
-            <Text style={[COLOR.paperGrey50, TYPO.paperFontSubhead]}>Koen</Text>
-          </View>
+          <Text style={[styles.welcome, COLOR.paperGrey50, TYPO.paperFontSubhead]}>
+            Welcome back, Koen!
+          </Text>
         </Drawer.Header>
         <Drawer.Section
           items={[
