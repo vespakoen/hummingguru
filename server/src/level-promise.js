@@ -5,7 +5,7 @@ function dbPut(db, key, value, opts) {
         reject(err)
         return
       }
-      resolve(this)
+      resolve()
     })
   })
 }
@@ -29,7 +29,7 @@ function dbDel(db, key, opts) {
         reject(err)
         return
       }
-      resolve(this)
+      resolve()
     })
   })
 }
@@ -41,7 +41,7 @@ function dbBatch(db, ops, opts) {
         reject(err)
         return
       }
-      resolve(this)
+      resolve()
     })
   })
 }

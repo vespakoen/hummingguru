@@ -1,4 +1,3 @@
-const uuid = require('uuid')
 const debug = require('debug')
 const { endJson, parseJsonRequest } = require('./utils')
 const { dbPut, dbGet } = require('./level-promise')
@@ -14,7 +13,7 @@ function handleCreateFacebookUser(req, res) {
       const userId = '' + Date.now()
       const user = {
         id: userId,
-        lastHummId: 0,
+        lastHummId: '0',
         facebookProfile
       }
       dbPut(userDb, userId, user)

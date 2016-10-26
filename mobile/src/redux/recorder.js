@@ -27,7 +27,8 @@ export function listenToProgress() {
 }
 
 export function listenToFinish() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const state = getState()
     AudioRecorder.onFinished = () => {
       const settings = {
         uri: tmpFile,
@@ -50,8 +51,7 @@ export function listenToFinish() {
           return
         }
         createHumm({
-          id: uuid.v4(),
-          userId: '1234', // @todo un-hardcode
+          userId: state.login.user.id, // @todo un-hardcode
           recordingId: res.data,
           note: ''
         })

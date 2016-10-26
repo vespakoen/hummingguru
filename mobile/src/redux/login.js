@@ -6,7 +6,7 @@ import * as fb from '../fb'
 import * as api from '../api'
 
 const initialState = {
-  isLoggedIn: null,
+  isLoggedIn: false,
   isFetchingProfile: false,
   isFetchingUser: false
 }

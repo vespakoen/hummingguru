@@ -29,24 +29,44 @@ const styles = StyleSheet.create({
   }
 })
 
-const Login = ({ user, login }) => (
-  <View style={styles.container}>
-    { user ? (
-      <HelpOthers />
-    ) : (
+const Login = ({
+  isLoggedIn,
+  isFetchingProfile,
+  isFetchingUser,
+  user,
+  login
+}) => {
+  let view
+  if (user) {
+    view = (<HelpOthers />)
+  } else if (isLoggedIn) {
+    if (isFetchingProfile) {
+      view = (<Text>Loading Facebook profile...</Text>)
+    } else if (isFetchingUser) {
+      view = (<Text>Loading user information...</Text>)
+    }
+  } else {
+    view = (
       <TouchableOpacity
         onPress={login}
         style={styles.login}
       >
         <Text style={styles.loginText}>Login with Facebook</Text>
       </TouchableOpacity>
-    ) }
-  </View>
-)
+    )
+  }
+  return (
+    <View style={styles.container}>
+      { view }
+    </View>
+  )
+}
 
 Login.propTypes = {
   login: PropTypes.func,
+  user: PropTypes.object,
   isLoggedIn: PropTypes.bool,
+  isFetchingUser: PropTypes.bool,
   isFetchingProfile: PropTypes.bool
 }
 

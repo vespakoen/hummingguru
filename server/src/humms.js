@@ -1,6 +1,5 @@
 const fs = require('fs')
 const spawn = require('child_process').spawn
-const uuid = require('uuid')
 const Busboy = require('busboy')
 const debug = require('debug')
 const { parseJsonRequest, endJson } = require('./utils')
@@ -55,7 +54,10 @@ function handleDownload(req, res) {
 
 function handleCreateHumm(req, res) {
   parseJsonRequest(req)
-    .then(humm => dbPut(hummDb, humm.id, humm))
+    .then(humm => {
+      humm.id = '' + new Date()
+      return dbPut(hummDb, humm.id, humm)
+    })
     .then(() => endJson(res, { success: true }))
     .catch(err => {
       endJson(res, {
@@ -74,11 +76,13 @@ function handleGetNextHumm(req, res) {
   const userId = req.params.userId
   dbGet(userDb, userId)
     .then(user => {
+      let foundHumms = 0
       hummDb.createReadStream({
         gt: user.lastHummId,
         limit: 1
       })
       .on('data', data => {
+        foundHumms += 1
         const { key: hummId, value: humm } = data
         const userUpdate = Object.assign({}, user, {
           lastHummId: hummId
@@ -86,6 +90,11 @@ function handleGetNextHumm(req, res) {
         dbPut(userDb, userId, userUpdate)
           .then(() => endJson(res, humm))
           .catch(err => endJson(res, { error: err.message }, 400))
+      })
+      .on('end', () => {
+        if (foundHumms === 0) {
+          endJson(res, { error: 'No humms found' }, 400)
+        }
       })
     })
     .catch(err => endJson(res, { error: err.message }, 400))

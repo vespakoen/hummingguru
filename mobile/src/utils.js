@@ -1,6 +1,6 @@
 import config from '../config'
 
-function bodyRequest(method) {
+function createJsonFetcher(method) {
   return (uri, json) => {
     let opts = {}
     if (method !== 'GET') {
@@ -15,7 +15,10 @@ function bodyRequest(method) {
     return fetch(`${config.API_URL}/${uri}`, opts)
       .then(res => {
         if (res.status >= 400 && res.status < 600) {
-          throw new Error('Bad response from server')
+          return res.json()
+            .then(res => {
+              throw new Error(`Bad response from server: ${res.error}`)
+            })
         }
         return res
       })
@@ -23,6 +26,6 @@ function bodyRequest(method) {
   }
 }
 
-export const getJson = bodyRequest('GET')
-export const postJson = bodyRequest('POST')
-export const putJson = bodyRequest('PUT')
+export const getJson = createJsonFetcher('GET')
+export const postJson = createJsonFetcher('POST')
+export const putJson = createJsonFetcher('PUT')

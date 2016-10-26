@@ -15,7 +15,7 @@ export function getNextHumm() {
       }))
       .catch(err => dispatch({
         type: 'FETCH_NEXT_HUMM_ERROR',
-        payload: err
+        payload: err.message
       }))
   }
 }
