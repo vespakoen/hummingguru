@@ -14,9 +14,11 @@ RUN apk update \
 
 WORKDIR /src
 
-ADD . .
+ADD package.json .
 
-RUN npm install
+RUN npm install --production
+
+ADD . .
 
 EXPOSE 8080
 

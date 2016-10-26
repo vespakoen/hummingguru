@@ -1,42 +1,13 @@
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-
-import Recorder from './src/components/Recorder'
-import store from './src/store'
+import React, { Component } from 'react'
+import { AppRegistry } from 'react-native'
 import { Provider } from 'react-redux'
+import Login from './src/components/Login'
+import store from './src/store'
 
-export default class HummingGuru extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Recorder />
-      </Provider>
-    );
-  }
-}
+const HummingGuru = () => (
+  <Provider store={store}>
+    <Login />
+  </Provider>
+)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('HummingGuru', () => HummingGuru);
+AppRegistry.registerComponent('HummingGuru', () => HummingGuru)

@@ -4,3 +4,6 @@ server:
     - 8080:8080
   volumes:
     - ./tmp:/tmp
+    - ./data:/data/hummingguru
+  environment:
+    DEBUG: "$DEBUG"

@@ -1,5 +1,6 @@
-var levelup = require('level')
+const levelup = require('level')
+const sublevel = require('level-sublevel')
 
-module.exports = levelup('/data/hummingguru', {
+module.exports = sublevel(levelup('/data/hummingguru', {
   valueEncoding: 'json'
-})
+}))

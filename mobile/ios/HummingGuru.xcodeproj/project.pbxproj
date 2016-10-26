@@ -13,6 +13,7 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* HummingGuruTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* HummingGuruTests.m */; };
+		104B5B24AC964F6FBEA4ABF4 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 407A1F1DEF3E42E7B5663AA7 /* libRCTFBSDK.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -22,6 +23,10 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		5D80DF7C1DC01B5800CA51FF /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D80DF791DC01B5800CA51FF /* FBSDKShareKit.framework */; };
+		5D80DF7D1DC01B5800CA51FF /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D80DF7A1DC01B5800CA51FF /* FBSDKLoginKit.framework */; };
+		5D80DF7E1DC01B5800CA51FF /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D80DF7B1DC01B5800CA51FF /* FBSDKCoreKit.framework */; };
+		5D80DF861DC01CCE00CA51FF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D80DF851DC01CCE00CA51FF /* Bolts.framework */; };
 		5DC333B11DBF95EF00BEED11 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC333B01DBF95EF00BEED11 /* AVFoundation.framework */; };
 		5DC333B31DBF95F500BEED11 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC333B21DBF95F500BEED11 /* MediaPlayer.framework */; };
 		5DC333B51DBF95F900BEED11 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC333B41DBF95F900BEED11 /* CoreGraphics.framework */; };
@@ -117,6 +122,13 @@
 			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
 			remoteInfo = RNFS;
 		};
+		5D80DF681DC0186E00CA51FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE90FD756E614C24A1FED341 /* RCTFBSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
+			remoteInfo = RCTFBSDK;
+		};
 		5DC333731DBF0D2F00BEED11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 452651EB88B942C09EE7B092 /* RNAudio.xcodeproj */;
@@ -170,13 +182,19 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = HummingGuru/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		3E76C50EA1464C48B2F7DB71 /* libWaveForm.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libWaveForm.a; sourceTree = "<group>"; };
+		407A1F1DEF3E42E7B5663AA7 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		452651EB88B942C09EE7B092 /* RNAudio.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAudio.xcodeproj; path = "../node_modules/react-native-audio/ios/RNAudio.xcodeproj"; sourceTree = "<group>"; };
+		5D80DF791DC01B5800CA51FF /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Frameworks/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		5D80DF7A1DC01B5800CA51FF /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Frameworks/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		5D80DF7B1DC01B5800CA51FF /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Frameworks/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		5D80DF851DC01CCE00CA51FF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
 		5DC333B01DBF95EF00BEED11 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5DC333B21DBF95F500BEED11 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		5DC333B41DBF95F900BEED11 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		818339CC95CD4623A29901DA /* RCTFileUploader.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFileUploader.xcodeproj; path = "../node_modules/react-native-file-uploader/ios/RCTFileUploader.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		BE90FD756E614C24A1FED341 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		E9F818F5467145898C84078F /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		F5CEBF2F6B574327ADE00FED /* WaveForm.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = WaveForm.xcodeproj; path = "../node_modules/react-native-waveform/ios/WaveForm.xcodeproj"; sourceTree = "<group>"; };
 		F8BFEB4B8B034819B2E8FEA0 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
@@ -197,7 +215,9 @@
 			files = (
 				5DC333B51DBF95F900BEED11 /* CoreGraphics.framework in Frameworks */,
 				5DC333B31DBF95F500BEED11 /* MediaPlayer.framework in Frameworks */,
+				5D80DF7D1DC01B5800CA51FF /* FBSDKLoginKit.framework in Frameworks */,
 				5DC333B11DBF95EF00BEED11 /* AVFoundation.framework in Frameworks */,
+				5D80DF7E1DC01B5800CA51FF /* FBSDKCoreKit.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -207,11 +227,14 @@
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
+				5D80DF7C1DC01B5800CA51FF /* FBSDKShareKit.framework in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				BAF7E6974F10410898B5EA9F /* libRNAudio.a in Frameworks */,
 				61ACD25390504274A5CA4BA9 /* libRCTFileUploader.a in Frameworks */,
 				C1D468D207F644BAB4013EBF /* libWaveForm.a in Frameworks */,
+				5D80DF861DC01CCE00CA51FF /* Bolts.framework in Frameworks */,
 				C49DF9824E7344449F2A235C /* libRNFS.a in Frameworks */,
+				104B5B24AC964F6FBEA4ABF4 /* libRCTFBSDK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +353,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5D80DF641DC0186E00CA51FF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5D80DF691DC0186E00CA51FF /* libRCTFBSDK.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5D80DF781DC01B4000CA51FF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5D80DF851DC01CCE00CA51FF /* Bolts.framework */,
+				5D80DF791DC01B5800CA51FF /* FBSDKShareKit.framework */,
+				5D80DF7A1DC01B5800CA51FF /* FBSDKLoginKit.framework */,
+				5D80DF7B1DC01B5800CA51FF /* FBSDKCoreKit.framework */,
+				5DC333B41DBF95F900BEED11 /* CoreGraphics.framework */,
+				5DC333B21DBF95F500BEED11 /* MediaPlayer.framework */,
+				5DC333B01DBF95EF00BEED11 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5DC333661DBF0D2F00BEED11 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,11 +414,9 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				452651EB88B942C09EE7B092 /* RNAudio.xcodeproj */,
 				818339CC95CD4623A29901DA /* RCTFileUploader.xcodeproj */,
-				5DC333B41DBF95F900BEED11 /* CoreGraphics.framework */,
-				5DC333B21DBF95F500BEED11 /* MediaPlayer.framework */,
-				5DC333B01DBF95EF00BEED11 /* AVFoundation.framework */,
 				F5CEBF2F6B574327ADE00FED /* WaveForm.xcodeproj */,
 				E9F818F5467145898C84078F /* RNFS.xcodeproj */,
+				BE90FD756E614C24A1FED341 /* RCTFBSDK.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -389,6 +432,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				5D80DF781DC01B4000CA51FF /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* HummingGuru */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* HummingGuruTests */,
@@ -479,6 +523,10 @@
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
+				},
+				{
+					ProductGroup = 5D80DF641DC0186E00CA51FF /* Products */;
+					ProjectRef = BE90FD756E614C24A1FED341 /* RCTFBSDK.xcodeproj */;
 				},
 				{
 					ProductGroup = 5DC333801DBF809200BEED11 /* Products */;
@@ -619,6 +667,13 @@
 			remoteRef = 5D2B5BC51DBFCC850081B7A8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		5D80DF691DC0186E00CA51FF /* libRCTFBSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTFBSDK.a;
+			remoteRef = 5D80DF681DC0186E00CA51FF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		5DC333741DBF0D2F00BEED11 /* libRNAudio.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -743,6 +798,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HummingGuru.app/HummingGuru";
@@ -763,6 +819,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HummingGuru.app/HummingGuru";
@@ -777,6 +834,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks/FacebookSDK",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -788,6 +850,7 @@
 					"$(SRCROOT)/../node_modules/react-native-waveform",
 					"$(SRCROOT)/../node_modules/react-native-waveform/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 				);
 				INFOPLIST_FILE = HummingGuru/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -811,6 +874,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks/FacebookSDK",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -819,9 +887,8 @@
 					"$(SRCROOT)/../node_modules/react-native-file-uploader/ios/RCTFileUploader",
 					"$(SRCROOT)/../node_modules/react-native-waveform",
 					"$(SRCROOT)/../node_modules/react-native-waveform/ios",
-					"$(SRCROOT)/../node_modules/react-native-waveform",
-					"$(SRCROOT)/../node_modules/react-native-waveform/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 				);
 				INFOPLIST_FILE = HummingGuru/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -880,9 +947,8 @@
 					"$(SRCROOT)/../node_modules/react-native-file-uploader/ios/RCTFileUploader",
 					"$(SRCROOT)/../node_modules/react-native-waveform",
 					"$(SRCROOT)/../node_modules/react-native-waveform/ios",
-					"$(SRCROOT)/../node_modules/react-native-waveform",
-					"$(SRCROOT)/../node_modules/react-native-waveform/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -927,9 +993,8 @@
 					"$(SRCROOT)/../node_modules/react-native-file-uploader/ios/RCTFileUploader",
 					"$(SRCROOT)/../node_modules/react-native-waveform",
 					"$(SRCROOT)/../node_modules/react-native-waveform/ios",
-					"$(SRCROOT)/../node_modules/react-native-waveform",
-					"$(SRCROOT)/../node_modules/react-native-waveform/ios",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

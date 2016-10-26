@@ -1,7 +1,8 @@
-import {AudioRecorder, AudioUtils} from 'react-native-audio'
+import { AudioRecorder, AudioUtils } from 'react-native-audio'
 import FileUploader from 'react-native-file-uploader'
 import fs from 'react-native-fs'
-
+import uuid from 'uuid'
+import { createHumm } from '../api'
 const initialState = {
   isRecording: false,
   isRecordingPaused: false,
@@ -10,6 +11,7 @@ const initialState = {
   progress: 0,
   recordingId: null
 }
+
 const tmpFile = fs.DocumentDirectoryPath + '/humm.aac'
 console.log(tmpFile)
 
@@ -37,7 +39,7 @@ export function listenToFinish() {
         data: {}
       }
       dispatch({
-        type: 'UPLOAD_START'
+        type: 'UPLOAD'
       })
       FileUploader.upload(settings, (err, res) => {
         if (err) {
@@ -47,12 +49,19 @@ export function listenToFinish() {
           })
           return
         }
-        fs.unlink(tmpFile)
-          .then(() => dispatch({
-            type: 'UPLOAD_SUCCESS',
-            payload: res.data
-          }))
+        createHumm({
+          id: uuid.v4(),
+          userId: '1234', // @todo un-hardcode
+          recordingId: res.data,
+          note: ''
+        })
+        .then(() => fs.unlink(tmpFile)
           .catch(err => console.error('unlink error'))
+        )
+        .then(() => dispatch({
+          type: 'UPLOAD_SUCCESS',
+          payload: res.data
+        }))
       }, (sent, expectedToSend) => {
         dispatch({
           type: 'UPLOAD_PROGRESS',
@@ -130,40 +139,40 @@ export const actions = {
 }
 
 const reducers = {
-  START_RECORDING: (state, action) => ({
+  START_RECORDING: (state) => ({
     ...state,
     isRecording: true,
     isRecordingPaused: false
   }),
-  PAUSE_RECORDING: (state, action) => ({
+  PAUSE_RECORDING: (state) => ({
     ...state,
     isRecordingPaused: true
   }),
-  STOP_RECORDING: (state, action) => ({
+  STOP_RECORDING: (state) => ({
     ...state,
     progress: 0,
     isRecording: false,
     isRecordingPaused: false
   }),
-  START_PLAYING: (state, action) => ({
+  START_PLAYING: (state) => ({
     ...state,
     isPlaying: true,
     isPlaybackPaused: false
   }),
-  PAUSE_PLAYING: (state, action) => ({
+  PAUSE_PLAYING: (state) => ({
     ...state,
     isPlaybackPaused: true
   }),
-  STOP_PLAYING: (state, action) => ({
+  STOP_PLAYING: (state) => ({
     ...state,
     isPlaying: false,
     isPlaybackPaused: false
   }),
-  PROGRESS: (state, action) =>  ({
+  PROGRESS: (state, action) => ({
     ...state,
     progress: action.payload
   }),
-  UPLOAD_START: (state, action) => ({
+  UPLOAD: (state) => ({
     ...state,
     isUploading: true
   }),
