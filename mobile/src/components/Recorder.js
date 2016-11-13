@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  ScrollView
 } from 'react-native'
 
 import { connect } from 'react-redux'
@@ -16,6 +17,9 @@ import { actions } from '../redux/recorder'
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  scroll: {
     flex: 1
   },
   controls: {
@@ -60,11 +64,17 @@ class Recorder extends Component {
   constructor(props) {
     super(props)
     this.toggleRecord = this.toggleRecord.bind(this)
+    this.inputFocused = this.inputFocused.bind(this)
+    this.inputBlurred = this.inputBlurred.bind(this)
   }
 
   componentDidMount() {
     this.props.listenToProgress()
     this.props.listenToFinish()
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props !== nextProps
   }
 
   toggleRecord() {
@@ -73,8 +83,24 @@ class Recorder extends Component {
       clearTimeout(this.autoStopper)
     } else {
       this.props.startRecording()
-      this.autoStopper = setTimeout(this.props.stopRecording, 10000)
+      this.autoStopper = setTimeout(this.props.stopRecording, 20000)
     }
+  }
+
+  inputFocused() {
+    this.refs.SCROLLVIEW.scrollTo({
+      x: 0,
+      y: 130,
+      animated: true
+    })
+  }
+
+  inputBlurred() {
+    this.refs.SCROLLVIEW.scrollTo({
+      x: 0,
+      y: 0,
+      animated: true
+    })
   }
 
   renderRoundButton({ children, onPress, buttonStyle }) {
@@ -91,7 +117,7 @@ class Recorder extends Component {
     const progressSeconds = Math.round(this.props.progress)
     const recordButtonContent = this.props.isRecording ? (
       <Text style={styles.counter}>
-        {10 - progressSeconds}
+        {20 - progressSeconds}
       </Text>
     ) : (
       <Icon
@@ -105,7 +131,7 @@ class Recorder extends Component {
         { this.props.isRecording ? (
           <View style={styles.intro}>
             <Text style={styles.introText}>
-              Hummmmmmmm...
+              {'Hummmmmmmm...\n\nTap the button at any time to stop recording'}
             </Text>
           </View>
         ) : (
@@ -142,7 +168,7 @@ class Recorder extends Component {
   renderPreviewStep() {
     return (
       <View style={styles.container}>
-        <Waveform recordingId={this.props.recordingId} />
+        <Waveform recordingId={this.props.recordingId} height={180} />
         <View style={styles.intro}>
           <Text style={styles.introText}>
             Tap the waves above, does it sound good?
@@ -174,7 +200,11 @@ class Recorder extends Component {
 
   renderAddNoteStep() {
     return (
-      <View style={styles.container}>
+      <ScrollView
+        ref="SCROLLVIEW"
+        style={styles.container}
+        contentContainerStyle={styles.scroll}
+      >
         <View style={styles.intro}>
           <Text style={styles.introText}>
             Add a helpfull note, or send some love to the other gurus...
@@ -183,7 +213,10 @@ class Recorder extends Component {
         <TextInput
           style={styles.note}
           onChangeText={this.props.setNote}
+          onFocus={this.inputFocused}
+          onBlur={this.inputBlurred}
           value={this.props.note}
+          ref="NOTE"
           multiline
         />
         <View style={styles.controls}>
@@ -196,7 +229,7 @@ class Recorder extends Component {
             </Text>
           </RoundButton>
         </View>
-      </View>
+      </ScrollView>
     )
   }
 

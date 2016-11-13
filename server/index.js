@@ -5,12 +5,13 @@ const {
   handleUpload,
   handleDownload,
   handleCreateHumm,
-  handleGetHumm,
-  handleGetNextHumm
+  handleGetHumm
 } = require('./src/humms')
 const {
   handleGetUserByFacebookId,
-  handleCreateFacebookUser
+  handleCreateFacebookUser,
+  handleGetNextHumm,
+  handleGetCurrentHumm
 } = require('./src/users')
 
 const log = debug('index')
@@ -29,7 +30,7 @@ function handleRequest(req, res) { // eslint-disable-line consistent-return
 
   // get pathname
   const pathname = url.parse(req.url).pathname
-
+  log('handleRequest', pathname)
   // routes
   if (pathname === '/upload') {
     // POST /upload
@@ -49,18 +50,24 @@ function handleRequest(req, res) { // eslint-disable-line consistent-return
       id: pathname.split('/')[3]
     }
     return handleGetHumm(req, res)
-  } else if (pathname.startsWith('/api/nexthumm/')) {
+  } else if (pathname.startsWith('/api/users/') && pathname.endsWith('/nexthumm')) {
     // GET /api/nexthumm/:userId
     req.params = { // eslint-disable-line no-param-reassign
       userId: pathname.split('/')[3]
     }
     return handleGetNextHumm(req, res)
-  } else if (pathname.startsWith('/api/user-by-facebook-id/')) {
+  } else if (pathname.startsWith('/api/users/') && pathname.endsWith('/currenthumm')) {
+    // GET /api/currenthumm/:userId
     req.params = { // eslint-disable-line no-param-reassign
-      facebookId: pathname.split('/')[3]
+      userId: pathname.split('/')[3]
+    }
+    return handleGetCurrentHumm(req, res)
+  } else if (pathname.startsWith('/api/users/facebook/')) {
+    req.params = { // eslint-disable-line no-param-reassign
+      facebookId: pathname.split('/')[4]
     }
     return handleGetUserByFacebookId(req, res)
-  } else if (pathname === '/api/create-facebook-user') {
+  } else if (pathname === '/api/users/facebook') {
     return handleCreateFacebookUser(req, res)
   }
   res.writeHead(404)
@@ -68,6 +75,6 @@ function handleRequest(req, res) { // eslint-disable-line consistent-return
 }
 
 const server = http.createServer(handleRequest)
-server.listen(PORT, () => {
-  log('Server listening on: http://localhost:%s', PORT)
+server.listen(PORT, '0.0.0.0', () => {
+  log('Server listening on: http://0.0.0.0:%s', PORT)
 })

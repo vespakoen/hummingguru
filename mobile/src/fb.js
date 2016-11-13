@@ -26,7 +26,7 @@ export function getProfile(accessToken) {
       }
     )
     new GraphRequestManager()
-    .addRequest(profileRequest)
-    .start()
+      .addRequest(profileRequest)
+      .start()
   })
 }

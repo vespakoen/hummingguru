@@ -7,11 +7,10 @@ const { dbPut, dbGet } = require('./level-promise')
 const db = require('./db')
 
 const hummDb = db.sublevel('humms')
-const userDb = db.sublevel('users')
 const log = debug('humms')
 
 function createConvertStream(format, inputStream) {
-  const converter = spawn('/usr/local/bin/ffmpeg', ['-i', 'pipe:0', '-f', format, 'pipe:1'])
+  const converter = spawn('ffmpeg', ['-i', 'pipe:0', '-f', format, 'pipe:1'])
   converter.stderr.on('data', error => {
     log('Error while decoding audio: %s', error.toString())
   })
@@ -48,7 +47,12 @@ function handleUpload(req, res) {
 
 function handleDownload(req, res) {
   const safeFilename = req.params.filename.replace(/\.\.\//g, '')
-  return fs.createReadStream(`/tmp/${safeFilename}`)
+  const filePath = `/tmp/${safeFilename}`
+  if (!fs.existsSync(filePath)) {
+    return endJson(res, { error: 'Unknown recording...' }, 400)
+  }
+
+  return fs.createReadStream(filePath)
     .pipe(res)
 }
 
@@ -72,38 +76,9 @@ function handleGetHumm(req, res) {
     .catch(err => endJson(res, { error: err.message }, 400))
 }
 
-function handleGetNextHumm(req, res) {
-  const userId = req.params.userId
-  dbGet(userDb, userId)
-    .then(user => {
-      let foundHumms = 0
-      hummDb.createReadStream({
-        gt: user.lastHummId,
-        limit: 1
-      })
-      .on('data', data => {
-        foundHumms += 1
-        const { key: hummId, value: humm } = data
-        const userUpdate = Object.assign({}, user, {
-          lastHummId: hummId
-        })
-        dbPut(userDb, userId, userUpdate)
-          .then(() => endJson(res, humm))
-          .catch(err => endJson(res, { error: err.message }, 400))
-      })
-      .on('end', () => {
-        if (foundHumms === 0) {
-          endJson(res, { error: 'No humms found' }, 400)
-        }
-      })
-    })
-    .catch(err => endJson(res, { error: err.message }, 400))
-}
-
 module.exports = {
   handleUpload,
   handleDownload,
   handleCreateHumm,
-  handleGetHumm,
-  handleGetNextHumm
+  handleGetHumm
 }

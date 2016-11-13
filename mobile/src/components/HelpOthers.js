@@ -50,11 +50,27 @@ const styles = StyleSheet.create({
 
 class HelpOthers extends Component {
   componentDidMount() {
-    this.props.getNextHumm()
+    this.props.getCurrentHumm()
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return this.props !== nextProps
   }
 
   render() {
-    const humm = this.props.humm
+    const { humm, isLoading } = this.props
+    if (isLoading) {
+      return (
+        <View style={styles.container}>
+          <View style={styles.note}>
+            <Text style={styles.noteText}>
+              Loading a humm, hang in there...
+            </Text>
+          </View>
+        </View>
+      )
+    }
+
     if (!humm) {
       return (
         <View style={styles.container}>
@@ -67,11 +83,12 @@ class HelpOthers extends Component {
         </View>
       )
     }
+
     return (
       <View style={styles.container}>
-        <Waveform recordingId={humm.recordingId} />
+        <Waveform recordingId={humm.recordingId} height={180} />
         <View style={styles.note}>
-          <Text style={styles.noteText}>{ humm.note }</Text>
+          <Text style={styles.noteText}>{humm.note}</Text>
         </View>
         <View style={styles.controls}>
           <RoundButton onPress={() => {}}>
@@ -88,7 +105,9 @@ class HelpOthers extends Component {
 
 HelpOthers.propTypes = {
   getNextHumm: PropTypes.func,
-  humm: PropTypes.object
+  getCurrentHumm: PropTypes.func,
+  humm: PropTypes.object,
+  isLoading: PropTypes.bool
 }
 
 export default connect(

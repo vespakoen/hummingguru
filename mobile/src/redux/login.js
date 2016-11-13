@@ -11,12 +11,12 @@ const initialState = {
   isFetchingUser: false
 }
 
-export function getUserByFacebookUserId(profile) {
+export function getUserByFacebookId(profile) {
   return (dispatch) => {
     dispatch({
       type: 'FETCH_USER'
     })
-    api.getUserByFacebookUserId(profile.id)
+    api.getUserByFacebookId(profile.id)
       // when not found, create a new user
       .catch(() => api.createFacebookUser(profile))
       .then(user => {
@@ -48,7 +48,7 @@ export function fetchProfile() {
           type: 'FETCH_PROFILE_SUCCESS',
           payload: profile
         })
-        dispatch(getUserByFacebookUserId(profile))
+        dispatch(getUserByFacebookId(profile))
       })
       .catch(err => dispatch({
         type: 'FETCH_PROFILE_ERROR',
@@ -59,6 +59,9 @@ export function fetchProfile() {
 
 export function login() {
   return (dispatch) => {
+    dispatch({
+      type: 'LOGIN'
+    })
     LoginManager.logInWithReadPermissions(['public_profile', 'email'])
       .then(result => {
         if (result.isCancelled) {
@@ -89,10 +92,23 @@ export const actions = {
 }
 
 const reducers = {
+  LOGIN: (state) => ({
+    ...state,
+    isLoggingIn: true
+  }),
   LOGIN_SUCCESS: (state, action) => ({
     ...state,
     isLoggedIn: true,
     accessToken: action.payload
+  }),
+  LOGIN_CANCELLED: (state) => ({
+    ...state,
+    isLoggingIn: false
+  }),
+  LOGIN_FAILED: (state, action) => ({
+    ...state,
+    isLoggingIn: false,
+    error: action.payload
   }),
   FETCH_PROFILE: (state) => ({
     ...state,

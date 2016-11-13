@@ -18,6 +18,7 @@ function parseJsonRequest(req) {
 }
 
 function endJson(res, json, status = 200) {
+  log('sending response', status, json)
   res.setHeader('content-type', 'application/json')
   res.writeHead(status)
   res.end(JSON.stringify(json))

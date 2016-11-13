@@ -3,6 +3,7 @@ import FileUploader from 'react-native-file-uploader'
 import fs from 'react-native-fs'
 import * as api from '../api'
 import { navigateTo } from './navigation'
+import config from '../../config'
 
 const initialState = {
   isRecording: false,
@@ -16,7 +17,7 @@ const initialState = {
 }
 
 const tmpFile = `${fs.DocumentDirectoryPath}/humm.aac`
-
+console.log(tmpFile)
 export function listenToProgress() {
   return (dispatch) => {
     AudioRecorder.onProgress = (data) => {
@@ -29,11 +30,11 @@ export function listenToProgress() {
 }
 
 export function listenToFinish() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     AudioRecorder.onFinished = () => {
       const settings = {
         uri: tmpFile,
-        uploadUrl: 'https://humming.guru/upload',
+        uploadUrl: `${config.API_URL}/upload`,
         method: 'POST',
         fileName: 'humm.aac',
         fieldName: 'file',
@@ -47,7 +48,7 @@ export function listenToFinish() {
         if (err) {
           dispatch({
             type: 'UPLOAD_ERROR',
-            payload: err.message
+            payload: err
           })
           return
         }
@@ -153,18 +154,18 @@ export function createHumm() {
       note: state.recorder.note
     }
     api.createHumm(humm)
-    .then(() => {
-      dispatch({
-        type: 'CREATE_HUMM_SUCCESS'
+      .then(() => {
+        dispatch({
+          type: 'CREATE_HUMM_SUCCESS'
+        })
+        dispatch(navigateTo('requests'))
       })
-      dispatch(navigateTo('requests'))
-    })
-    .catch(err => {
-      dispatch({
-        type: 'CREATE_HUMM_ERROR',
-        payload: err.message
+      .catch(err => {
+        dispatch({
+          type: 'CREATE_HUMM_ERROR',
+          payload: err.message
+        })
       })
-    })
   }
 }
 

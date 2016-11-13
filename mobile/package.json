@@ -9,7 +9,7 @@
   "dependencies": {
     "react": "15.3.2",
     "react-native": "0.35.0",
-    "react-native-audio": "^2.2.0",
+    "react-native-audio": "git+https://github.com/zzycami/react-native-audio.git",
     "react-native-drawer-layout": "^1.1.0",
     "react-native-fbsdk": "^0.3.0",
     "react-native-file-uploader": "0.0.2",

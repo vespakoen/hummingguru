@@ -3,32 +3,34 @@ import React, { PropTypes } from 'react'
 import {
   StyleSheet,
   StatusBar,
+  Text,
   View
 } from 'react-native'
 
-import { Toolbar } from 'react-native-material-design'
 import { connect } from 'react-redux'
-import Menu from './Menu'
 import Login from './Login'
 import Recorder from './Recorder'
 import HelpOthers from './HelpOthers'
 import Profile from './Profile'
 import Requests from './Requests'
+import TabBar from './TabBar'
 import { actions } from '../redux/navigation'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  scene: {
-    marginTop: 56 + 18,
     flex: 1,
-    backgroundColor: '#d8d8d8'
+    backgroundColor: '#ddd'
   },
-  toolbar: {
+  header: {
+    height: 70,
     paddingTop: 18,
-    height: 56 + 18,
-    backgroundColor: '#ffe000'
+    backgroundColor: '#ffe000',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  headerTitle: {
+    color: '#000',
+    fontSize: 20
   }
 })
 
@@ -40,33 +42,36 @@ const pageToComponentMap = {
   requests: Requests
 }
 
-const App = ({ page, openDrawer }) => {
+const pageToTitleMap = {
+  recorder: 'Get Help',
+  helpOthers: 'Help Others',
+  profile: 'Profile',
+  requests: 'Requests'
+}
+
+const App = ({ page }) => {
   if (page === 'login') {
     return <Login />
   }
   const Scene = pageToComponentMap[page]
   return (
-    <Menu>
+    <View style={styles.container}>
       <StatusBar
         barStyle="default"
       />
-      <View style={styles.scene}>
-        <Scene />
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>
+          {pageToTitleMap[page]}
+        </Text>
       </View>
-      <Toolbar
-        style={styles.toolbar}
-        onIconPress={openDrawer}
-        theme="light"
-        title="Humming Guru"
-        icon="menu"
-      />
-    </Menu>
+      <Scene />
+      <TabBar />
+    </View>
   )
 }
 
 App.propTypes = {
-  page: PropTypes.string,
-  openDrawer: PropTypes.func
+  page: PropTypes.string
 }
 
 export default connect(
